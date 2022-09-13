@@ -28,5 +28,34 @@ services:
     networks:
       - my-server
 
+  server:
+    container_name: server
+    build:
+      context: server
+      dockerfile: Dockerfile
+    ports:
+      - "7001:7001"
+    restart: on-failure
+    networks:
+      - my-server
+    depends_on:
+      - redis
+      - mysql
+
+  nginx:
+    container_name: nginx
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    restart: on-failure
+    networks:
+      - my-server
+    depends_on:
+      - redis
+      - mysql
+      - server
+
 networks:
   my-server:
