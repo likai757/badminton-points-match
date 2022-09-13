@@ -3,49 +3,17 @@
  **************************************************/
 import React, { useState, useRef } from 'react';
 import { Button } from 'antd-mobile';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import style from './Register.less';
 import { Form, Input } from 'antd-mobile';
 
 function Login() {
   const token = useRef('');
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
 
   const login = async () => {
-    const userName = 'root';
-    const passwd = 'admin_123';
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        userName,
-        passwd
-      })
-    });
-    response.json().then(res => {
-      token.current = res.token;
-    });
-  };
-
-  const getData = async () => {
-    if (!token.current) {
-      alert('请先登录！');
-    } else {
-      const response = await fetch('/api/list', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'token': token.current
-        },
-      });
-      response.json().then(res => {
-        if (res.errCode === 0) {
-          setData(res.data);
-        }
-      });
-    }
+    navigate('/profile');
   };
 
   return (<div className={`${style.register} vertical`}>

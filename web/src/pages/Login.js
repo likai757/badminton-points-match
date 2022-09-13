@@ -3,12 +3,13 @@
  **************************************************/
 import React, { useState, useRef } from 'react';
 import { Button } from 'antd-mobile';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import style from './Login.less';
 import { Form, Input } from 'antd-mobile';
 
 function Login() {
   const token = useRef('');
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
 
   const login = async () => {
@@ -26,26 +27,28 @@ function Login() {
     });
     response.json().then(res => {
       token.current = res.token;
+      navigate('/home');
     });
   };
 
   const getData = async () => {
-    if (!token.current) {
-      alert('请先登录！');
-    } else {
-      const response = await fetch('/api/list', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'token': token.current
-        },
-      });
-      response.json().then(res => {
-        if (res.errCode === 0) {
-          setData(res.data);
-        }
-      });
-    }
+    navigate('/register');
+    // if (!token.current) {
+    //   alert('请先登录！');
+    // } else {
+    //   const response = await fetch('/api/list', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'token': token.current
+    //     },
+    //   });
+    //   response.json().then(res => {
+    //     if (res.errCode === 0) {
+    //       setData(res.data);
+    //     }
+    //   });
+    // }
   };
 
   return (<div className={`${style.login} vertical`}>
@@ -58,7 +61,7 @@ function Login() {
         <Input type="password" placeholder="请输入" />
       </Form.Item>
     </Form>
-    <div className='buttons'>
+    <div className="buttons">
       <Button onClick={login} size="middle" className="box">登录</Button>
       <Button onClick={getData} size="middle" className="box">注册</Button>
     </div>

@@ -3,30 +3,17 @@
  **************************************************/
 import React, { useState, useRef } from 'react';
 import { Button } from 'antd-mobile';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import style from './Register.less';
 import { Form, Input, Radio, Space } from 'antd-mobile';
 
 function Profile() {
   const token = useRef('');
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
 
   const login = async () => {
-    const userName = 'root';
-    const passwd = 'admin_123';
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        userName,
-        passwd
-      })
-    });
-    response.json().then(res => {
-      token.current = res.token;
-    });
+    navigate('/home');
   };
 
   const getData = async () => {
