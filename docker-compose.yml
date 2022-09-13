@@ -1,0 +1,32 @@
+version: "3.0"
+
+services:
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - "6379:6379"
+    restart: on-failure
+    networks:
+      - my-server
+
+  mysql:
+    container_name: mysql
+    build:
+      context: mysql
+      dockerfile: Dockerfile
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin_123
+      - LANG=C.UTF-8
+    ports:
+      - "3306:3306"
+    restart: on-failure
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    platform: linux/x86_64
+    networks:
+      - my-server
+
+networks:
+  my-server:
