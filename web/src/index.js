@@ -19,13 +19,18 @@ root.render(<React.StrictMode>
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Login />} />
+      <Route path="login" element={<Login />} />
       <Route path="home" element={<Home />} />
       <Route path="register" element={<Register />} />
       <Route path="profile" element={<Profile />} />
-      <Route path="team" element={<Team />} />
-      <Route path="match" element={<Matching />} />
-      <Route path="game" element={<Game />} />
-      <Route path="login" element={<Login />} />
+      <Route path="team/:userId" element={<Team />} />
+      <Route path="matching">
+        <Route path=":type/:teamId/" element={<Matching />} />
+      </Route>
+      <Route path="game">
+        <Route path=":type/:teamAId/:teamBId" element={<Game />} />
+      </Route>
+
     </Routes>
   </BrowserRouter>
 </React.StrictMode>);
